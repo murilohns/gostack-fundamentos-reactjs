@@ -9,6 +9,7 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 
 import formatValue from '../../utils/formatValue';
+import formatDate from '../../utils/formatDate';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
 
@@ -56,7 +57,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-income">
               {balance.income
-                ? `R$ ${formatValue(balance.income)}`
+                ? `${formatValue(balance.income)}`
                 : 'Carregando...'}
             </h1>
           </Card>
@@ -67,7 +68,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-outcome">
               {balance.outcome
-                ? `R$ ${formatValue(balance.outcome)}`
+                ? `${formatValue(balance.outcome)}`
                 : 'Carregando...'}
             </h1>
           </Card>
@@ -78,7 +79,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-total">
               {balance.outcome
-                ? `R$ ${formatValue(balance.total)}`
+                ? `${formatValue(balance.total)}`
                 : 'Carregando...'}
             </h1>
           </Card>
@@ -96,18 +97,16 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              <tr>
-                <td className="title">Computer</td>
-                <td className="income">R$ 5.000,00</td>
-                <td>Sell</td>
-                <td>20/04/2020</td>
-              </tr>
-              <tr>
-                <td className="title">Website Hosting</td>
-                <td className="outcome">- R$ 1.000,00</td>
-                <td>Hosting</td>
-                <td>19/04/2020</td>
-              </tr>
+              {transactions.map(transaction => (
+                <tr>
+                  <td className="title">{transaction.title}</td>
+                  <td className="income">
+                    {`${formatValue(transaction.value)}`}
+                  </td>
+                  <td>{transaction.category.title}</td>
+                  <td>{formatDate(new Date(transaction.created_at))}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </TableContainer>
